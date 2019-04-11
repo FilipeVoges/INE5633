@@ -1,5 +1,7 @@
 <?php 
 
+include_once './Entity.php';
+
 /**
  * \Tree
  *
@@ -7,7 +9,7 @@
  * @since 2019-04-11
  * @version 1.0
  */
-class Tree {
+class Tree extends Entity {
   /**
    * @var \Board $board
    */
