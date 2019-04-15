@@ -121,4 +121,56 @@ class Board extends Entity{
 		}
 		return true;
 	}
+	
+	/**
+	 * Retorna uma lista de posições onde cada peça representa uma sequência possível após mover as peças que podem ser movidas para a posição em branco.
+	 *
+	 * @return array
+	 */
+	public function getBoardSuccessors() {
+		$pieces = $successors = [];
+
+		$game = new Board($this);
+
+		$pieces = $game->piecesThatCanMove();
+
+		foreach ($pieces as $key => $p) {
+			$game->movePiece($p);
+
+			$successors[] = $game;
+
+			$game = new Board($this);
+			$pieces = $game->piecesThatCanMove();
+		}
+
+		return $successors;
+	}
+
+	/**
+	 * Retorna uma lista com as possíveis peças que estão se movendo
+	 *
+	 * @return array
+	 */
+	public function piecesThatCanMove() {
+		$piecesThatCanMove = [];
+
+		$eP = $this->get('emptyPiece');
+		$position = $eP->get('position');
+
+		$pieces = $this->get('pieces');
+		if ($position->get('x') - 1 >= 0){
+			$piecesThatCanMove[] = $pieces[(($position->get('x') - 1) * 3) + $position->get('y')];
+		}
+		if (($position->get('x') + 1) * 3 < count($pieces)){
+			$piecesThatCanMove[] = $pieces[(($position->get('x') + 1) * 3) + $position->get('y')];
+		}
+		if ($position->get('y') - 1 >= 0){
+			$piecesThatCanMove[] = $pieces[($position->get('x') * 3) + ($position->get('y') - 1)];
+		}
+		if ($position->get('y') + 1 < 3){
+			$piecesThatCanMove[] = $pieces[($position->get('x') * 3) + ($position->get('y') + 1)];
+		}
+
+		return $piecesThatCanMove;
+	}
 }
