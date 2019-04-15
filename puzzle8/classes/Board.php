@@ -173,4 +173,19 @@ class Board extends Entity{
 
 		return $piecesThatCanMove;
 	}
+	
+	/**
+	 * Move uma peça
+	 *
+	 * @return void
+	 */
+	public function movePiece(Piece $piece) {
+		$position = $piece->get('position');
+		$positionEmpty = $this->get('emptyPiece')->get('position');
+		$validation = ($position->get('x') == $positionEmpty->get('x') && ($position->get('y') == $positionEmpty->get('y') - 1 || $position->get('y') == $positionEmpty->get('y') + 1))
+			|| (($position->get('x') == $positionEmpty->get('x') - 1 || $position->get('x') == $positionEmpty->get('x') + 1) && $position->get('y') == $positionEmpty->get('y'));
+		if ($validation) {
+			$this->updatePiecePosition($piece);
+		}
+	}
 }
