@@ -188,4 +188,31 @@ class Board extends Entity{
 			$this->updatePiecePosition($piece);
 		}
 	}
+	
+	/**
+	 * Atualiza a posição da peça
+	 *
+	 * @return void
+	 */
+	public function updatePiecePosition(Piece $piece) {
+		$positionEmpty = $this->get('emptyPiece')->get('position');
+		$line = $positionEmpty->get('x');
+		$column = $positionEmpty->get('y');
+
+		$pieces = $this->get('pieces');
+
+		$positionEmpty = new Position($position->get('x'), $position->get('y'));
+		$this->get('emptyPiece')->set('position', $positionEmpty);
+
+		$position = new Position($line, $column);
+		$piece->set('position', $position);
+
+		unset($pieces[($position->get('x') * 3) + $position->get('y')]);
+		$pieces[($position->get('x') * 3) + $position->get('y')] = $this->get('emptyPiece');
+
+		unset($pieces[($line * 3) + $column]);
+		$pieces[($line * 3) + $column] = $piece;
+
+		$this->set('pieces', $pieces);
+	}
 }
