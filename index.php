@@ -50,7 +50,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="#repositorios">Trabalhos</a></li>
+                <li><a href="https://search-methods.herokuapp.com/">Trabalhos</a></li>
             </ul>
         </div>
     </div>
@@ -67,7 +67,7 @@
                     <div class="panel-body">
                         <ul class="nav nav-list">
                             <li>
-                                <a href="Puzzle8/puzzle.php" target="_blank">
+                                <a href="puzzle8/puzzle.php" target="_blank">
                                     <span class="fa fa-hand-o-right"></span> Puzzle8
                                 </a>
                             </li>
