@@ -1,5 +1,6 @@
 <?php
 
+include_once 'classes/Entity.php';
 include_once 'classes/Board.php';
 include_once 'HManhattan.php';
 
@@ -11,7 +12,7 @@ include_once 'HManhattan.php';
  * @since 2019-04-16
  * @version 1.0
  */
-class AStar {
+class AStar extends Entity {
 	
 	/**
      * @var array
