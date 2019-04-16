@@ -1,7 +1,7 @@
 <?php
 
-include_once './Entity.php';
-include_once './Postion.php';
+include_once 'Entity.php';
+include_once 'Postion.php';
 
 /**
  * \Piece
