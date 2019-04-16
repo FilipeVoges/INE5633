@@ -12,3 +12,8 @@ $a = new Position(1, 1);
 echo '<pre>';
 var_dump($a);	
 echo '</pre>';
+echo '<hr>';
+$b = new Position(1, 2);
+echo '<pre>';
+var_dump($b);	
+echo '</pre>';
