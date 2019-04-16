@@ -1,6 +1,6 @@
 <?php 
 
-include_once './Entity.php';
+include_once 'Entity.php';
 
 /**
  * \Tree
