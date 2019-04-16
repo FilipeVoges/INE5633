@@ -57,7 +57,7 @@ class Board extends Entity{
      * @param int $level
      * @param \Board $father
      */
-    public function __construct(Board $game = NULL, array $pieces = [], Piece $emptyPiece = NULL, int $level = 0, Board $father == NULL){
+    public function __construct(Board $game = NULL, array $pieces = [], Piece $emptyPiece = NULL, int $level = 0, Board $father = NULL){
         parent::__construct();
 
 		if(!is_null($game) && !empty($game->get('pieces'))){
