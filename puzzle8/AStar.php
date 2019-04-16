@@ -1,7 +1,7 @@
 <?php
 
-include_once './classes/Board.php';
-include_once './HManhattan.php';
+include_once 'classes/Board.php';
+include_once 'HManhattan.php';
 
 /**
  * \AStar
