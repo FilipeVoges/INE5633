@@ -1,8 +1,8 @@
 <?php
 
-include_once './Entity.php';
-include_once './Piece.php';
-include_once './Position.php';
+include_once 'Entity.php';
+include_once 'Piece.php';
+include_once 'Position.php';
 
 /**
  * \Board
