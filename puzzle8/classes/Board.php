@@ -65,10 +65,11 @@ class Board extends Entity{
 
 			foreach ($game->get('pieces') as $key => $p) {
 				if(!is_null($p->get('number'))){
-					$pieces[] = new Piece($p);
+					$nP = new Piece($p);
+					$pieces[$nP->get('identifier')] = $nP;
 				}else{
 					$nP = new Piece($p);
-					$pieces[] = $nP;
+					$pieces[$nP->get('identifier')] = $nP;
 					$this->set('emptyPiece', $nP);
 				}
 			}
@@ -139,7 +140,7 @@ class Board extends Entity{
 		foreach ($pieces as $key => $p) {
 			$game->movePiece($p);
 
-			$successors[] = $game;
+			$successors[$game->get('identifier')] = $game;
 
 			$game = new Board($this);
 			$pieces = $game->piecesThatCanMove();
