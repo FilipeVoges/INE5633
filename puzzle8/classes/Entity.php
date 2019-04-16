@@ -10,6 +10,24 @@
 abstract class Entity extends stdClass{
 
     /**
+     * @var int $aI;
+     */
+   	private static $aI;
+
+    /**
+	 * @var int $identifier
+	 */
+	protected $identifier;
+
+	/**
+	 * Construct Class
+	 */
+	public function __construct(){
+		Entity::$aI = intval(Entity::$aI) + 1;
+		$this->set('identifier', Entity::$aI);
+	}
+
+    /**
      * Getter Generic
      *
      * @param $property | String
