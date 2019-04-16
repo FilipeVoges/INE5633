@@ -32,31 +32,33 @@ class HManhattan {
 
             $line = $position->get('x');
             $column = $position->get('y');
-			if (is_null($p->get('number'))) {
+
+            $number = $p->get('number');
+			if (is_null($number)) {
 				$temp = abs($line - 2);
 				$temp += abs($column - 2);
-			}elseif($p->get('number') == 1) {
+			}elseif($number == 1) {
 				$temp = $line;
 				$temp += $column;
-			}elseif($p->get('number') == 2) {
+			}elseif($number == 2) {
 				$temp = $line;
 				$temp += abs($column - 1);
-			}elseif($p->get('number') == 3) {
+			}elseif($number == 3) {
 				$temp = $line;
 				$temp += abs($column - 2);
-			}elseif($p->get('number') == 4) {
+			}elseif($number == 4) {
 				$temp = abs($line - 1);
 				$temp += $column;
-			}elseif($p->get('number') == 5) {
+			}elseif($number == 5) {
 				$temp = abs($line - 1);
 				$temp += abs($column - 1);
-			}elseif($p->get('number') == 6) {
+			}elseif($number == 6) {
 				$temp = abs($line - 1);
 				$temp += abs($column - 2);
-			}elseif($p->get('number') == 7) {
+			}elseif($number == 7) {
 				$temp = abs($line - 2);
 				$temp += $column;
-			}elseif($p->get('number') == 8) {
+			}elseif($number == 8) {
 				$temp = abs($line - 2);
 				$temp += abs($column - 1);
 			}
