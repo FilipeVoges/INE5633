@@ -1,6 +1,7 @@
 <?php
 
 include_once './Entity.php';
+include_once './Piece.php';
 include_once './Position.php';
 
 /**
@@ -68,7 +69,7 @@ class Board extends Entity{
 				}else{
 					$nP = new Piece($p);
 					$pieces[] = $nP;
-					$this->set('emptyElement', $nP);
+					$this->set('emptyPiece', $nP);
 				}
 			}
 		}else {
@@ -122,7 +123,7 @@ class Board extends Entity{
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Retorna uma lista de posições onde cada peça representa uma sequência possível após mover as peças que podem ser movidas para a posição em branco.
 	 *
@@ -174,7 +175,7 @@ class Board extends Entity{
 
 		return $piecesThatCanMove;
 	}
-	
+
 	/**
 	 * Move uma peça
 	 *
@@ -189,7 +190,7 @@ class Board extends Entity{
 			$this->updatePiecePosition($piece);
 		}
 	}
-	
+
 	/**
 	 * Atualiza a posição da peça
 	 *
@@ -216,4 +217,5 @@ class Board extends Entity{
 
 		$this->set('pieces', $pieces);
 	}
+
 }
