@@ -3,7 +3,7 @@
 //header("HTTP/1.1 501");
 //echo "<strong>501</strong> - Not Implemented";
 
-include_once './Position.php';
+include_once './classes/Position.php';
 
 $a = new Position(1, 1);
 var_dump($a->get('identifier');
