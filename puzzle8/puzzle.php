@@ -8,4 +8,21 @@ ini_set("display_errors", 1);
 
 require_once 'classes/Position.php';
 
-die('aqui');
+$a = new Position(1, 1);
+var_dump($a->get('identifier');	
+$a = new Position(1, 2);	
+var_dump($a->get('identifier');	
+$a = new Position(1, 3);	
+var_dump($a->get('identifier');	
+$a = new Position(2, 1);	
+var_dump($a->get('identifier');	
+$a = new Position(2, 2);	
+var_dump($a->get('identifier');	
+$a = new Position(2, 3);	
+var_dump($a->get('identifier');	
+$a = new Position(3, 1);	
+var_dump($a->get('identifier');	
+$a = new Position(3, 2);	
+var_dump($a->get('identifier');	
+$a = new Position(3, 3);	
+var_dump($a->get('identifier');
