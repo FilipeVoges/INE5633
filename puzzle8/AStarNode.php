@@ -1,7 +1,7 @@
 <?php
 
-include_once './classes/Entity.php';
-include_once './classes/Board.php';
+include_once 'classes/Entity.php';
+include_once 'classes/Board.php';
 
 /**
  * \AStarNode

@@ -3,7 +3,7 @@
 /**
  * \Entity
  *
- * @author Filipe Voges <filipe@emsventura.com.br>
+ * @author Filipe Voges <filipe.vogesh@gmail.com>
  * @since 2019-04-11
  * @version 1.0
  */
@@ -76,5 +76,24 @@ abstract class Entity extends stdClass{
             $this->set($key, $value);
         }
     }
+
+    /**
+	 * Compare Classes
+	 *
+	 * @param \Entity $obj
+	 * @return bool
+	 */
+	public function equals(Entity $obj) {
+		if(get_class($this) != get_class($obj)) return false;
+		if ($obj == NULL) return false;
+
+        $id = $this->get('identifier');
+        $this->set('identifier', NULL);
+
+        $rs = ($this == $obj);
+        $this->set('identifier', $id);
+
+		return $rs;
+	}
 
 }
