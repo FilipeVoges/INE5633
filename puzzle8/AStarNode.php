@@ -40,7 +40,7 @@ class AStarNode extends Entity {
 	 * @param int $movements
 	 * @param cost
 	 */
-	public function __construct(Board $board, AStarNode $previous, int $movements, int $cost) {
+	public function __construct(Board $board, $previous, int $movements, int $cost) {
 		parent::__construct();
 
         $this->set('board', $board);

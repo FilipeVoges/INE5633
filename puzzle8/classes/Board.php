@@ -91,22 +91,29 @@ class Board extends Entity{
 				$this->set('father', $father);
 			}
 
-
-			usort($this->get('pieces'), function(Piece $p1, Piece $p2){
-				if($p1->get('boardHouse') > $p2->get('boardHouse')){
-					return 1;
-				}elseif($p1->get('boardHouse') < $p2->get('boardHouse')) {
-					return -1;
-				}else{
-					return 0;
-				}
-			});
+			$pieces = !is_null($this->get('pieces')) ? $this->get('pieces') : [];
+			usort($pieces, 'Board::cmp');
 		}
 
     }
 
 
-
+	/**
+	 * Reoderna o Tabuleiro
+	 *
+	 * @param \Piece $p1
+	 * @param \Piece $p2
+	 * @return int
+	 */
+	private static function cmp(Piece $p1, Piece $p2){
+		if($p1->get('boardHouse') > $p2->get('boardHouse')){
+			return 1;
+		}elseif($p1->get('boardHouse') < $p2->get('boardHouse')) {
+			return -1;
+		}else{
+			return 0;
+		}
+	}
 	/**
 	 * Verifica se é a solução do game
 	 *

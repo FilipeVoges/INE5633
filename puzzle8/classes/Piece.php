@@ -32,9 +32,9 @@ class Piece extends Entity {
 	 *
 	 * @param \Piece $piece
 	 * @param int $number
-	 * @param \Postion $position
+	 * @param \Position $position
 	 */
-	public function __construct(Piece $piece = NULL, int $number = 0, Postion $position = NULL){
+	public function __construct(Piece $piece = NULL, int $number = 0, Position $position = NULL){
 		parent::__construct();
 
 		if(!is_null($piece)){
