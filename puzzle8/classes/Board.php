@@ -62,7 +62,6 @@ class Board extends Entity{
 
 		if(!is_null($game) && !empty($game->get('pieces'))){
 			$pieces = [];
-
 			foreach ($game->get('pieces') as $key => $p) {
 				if(!is_null($p->get('number'))){
 					$nP = new Piece($p);
@@ -71,6 +70,16 @@ class Board extends Entity{
 					$nP = new Piece($p);
 					$pieces[$nP->get('identifier')] = $nP;
 					$this->set('emptyPiece', $nP);
+				}
+			}
+			$this->set('pieces', $pieces);
+			if(is_null($this->get('emptyPiece'))){
+				$emptyHouseOld = $game->get('emptyPiece')->get('boardHouse');
+				foreach ($pieces as $key => $p) {
+					if($p->get('boardHouse') == $emptyHouseOld){
+						$this->set('emptyPiece', $p);
+						break;
+					}
 				}
 			}
 		}else {
@@ -121,7 +130,7 @@ class Board extends Entity{
 	 *
 	 * 		1 2 3
 	 * 		4 5 6
-	 * 		8 9 0
+	 * 		7 8 0
 	 *
 	 * @return bool
 	 */
@@ -141,18 +150,19 @@ class Board extends Entity{
 		$pieces = $successors = [];
 
 		$game = new Board($this);
+		echo (string)$game . "<hr>";
 
 		$pieces = $game->piecesThatCanMove();
-
 		foreach ($pieces as $key => $p) {
 			$game->movePiece($p);
 
 			$successors[$game->get('identifier')] = $game;
 
 			$game = new Board($this);
+			echo (string)$game;
 			$pieces = $game->piecesThatCanMove();
 		}
-
+		die();
 		return $successors;
 	}
 
@@ -165,20 +175,12 @@ class Board extends Entity{
 		$piecesThatCanMove = [];
 
 		$eP = $this->get('emptyPiece');
-		$position = $eP->get('position');
-
 		$pieces = $this->get('pieces');
-		if ($position->get('x') - 1 >= 0){
-			$piecesThatCanMove[] = $pieces[(($position->get('x') - 1) * 3) + $position->get('y')];
-		}
-		if (($position->get('x') + 1) * 3 < count($pieces)){
-			$piecesThatCanMove[] = $pieces[(($position->get('x') + 1) * 3) + $position->get('y')];
-		}
-		if ($position->get('y') - 1 >= 0){
-			$piecesThatCanMove[] = $pieces[($position->get('x') * 3) + ($position->get('y') - 1)];
-		}
-		if ($position->get('y') + 1 < 3){
-			$piecesThatCanMove[] = $pieces[($position->get('x') * 3) + ($position->get('y') + 1)];
+		$house = $eP->get('boardHouse');
+		foreach ($pieces as $key => $p) {
+			if(in_array($house, $p->possiblesHouse()) && $p->get('boardHouse') != $house) {
+				$piecesThatCanMove[$p->get('identifier')] = $p;
+			}
 		}
 
 		return $piecesThatCanMove;
@@ -190,13 +192,7 @@ class Board extends Entity{
 	 * @return void
 	 */
 	public function movePiece(Piece $piece) {
-		$position = $piece->get('position');
-		$positionEmpty = $this->get('emptyPiece')->get('position');
-		$validation = ($position->get('x') == $positionEmpty->get('x') && ($position->get('y') == $positionEmpty->get('y') - 1 || $position->get('y') == $positionEmpty->get('y') + 1))
-			|| (($position->get('x') == $positionEmpty->get('x') - 1 || $position->get('x') == $positionEmpty->get('x') + 1) && $position->get('y') == $positionEmpty->get('y'));
-		if ($validation) {
-			$this->updatePiecePosition($piece);
-		}
+		$this->updatePiecePosition($piece);
 	}
 
 	/**
@@ -204,26 +200,45 @@ class Board extends Entity{
 	 *
 	 * @return void
 	 */
-	public function updatePiecePosition(Piece $piece) {
-		$positionEmpty = $this->get('emptyPiece')->get('position');
-		$line = $positionEmpty->get('x');
-		$column = $positionEmpty->get('y');
+	private function updatePiecePosition(Piece $piece) {
+		$emptyPiece = $this->get('emptyPiece');
+		$positionEmpty = $emptyPiece->get('position');
 
 		$pieces = $this->get('pieces');
+		$emptyPiece->set('position', new Position($piece->get('position')->get('x'), $piece->get('position')->get('y')));
+		$emptyPiece->updateBoardHouse();
 
-		$positionEmpty = new Position($position->get('x'), $position->get('y'));
-		$this->get('emptyPiece')->set('position', $positionEmpty);
+		$piece->set('position', $positionEmpty);
+		$piece->updateBoardHouse();
 
-		$position = new Position($line, $column);
-		$piece->set('position', $position);
-
-		unset($pieces[($position->get('x') * 3) + $position->get('y')]);
-		$pieces[($position->get('x') * 3) + $position->get('y')] = $this->get('emptyPiece');
-
-		unset($pieces[($line * 3) + $column]);
-		$pieces[($line * 3) + $column] = $piece;
-
+		$pieces[$piece->get('identifier')] = $this->get('emptyPiece');
+		$pieces[$emptyPiece->get('identifier')] = $piece;
+		usort($pieces, 'Board::cmp');
 		$this->set('pieces', $pieces);
+		$this->set('emptyPiece', $emptyPiece);
+	}
+
+	public function __toString(){
+		$pieces = [];
+
+		$ps = $this->get('pieces');
+		$idx = 0;
+		for ($i = 0; $i < 3; $i++) {
+			$pTmp = array_slice($ps, $idx, 3, true);
+			$idx += 3;
+			$pieces[] = $pTmp;
+		}
+		$content = '<table style="border: 1px solid black;">';
+		foreach ($pieces as $key => $line) {
+			$content .= '<tr>';
+			foreach ($line as $key => $p) {
+				$content .= '<td> ' . $p->get('number') . ' </td>';
+			}
+			$content .= '</tr>';
+		}
+		$content .= '</table>';
+
+		return $content;
 	}
 
 }

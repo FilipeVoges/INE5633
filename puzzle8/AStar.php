@@ -68,9 +68,8 @@ class AStar extends Entity {
 			$this->closedList[$actualNode->get('identifier')] = $actualNode;
 			if(isset($this->openList[$actualNode->get('identifier')])) unset($this->openList[$actualNode->get('identifier')]);
 
-			foreach ($actualNode->get('board')->getBoardSuccessors as $key => $board) {
+			foreach ($actualNode->get('board')->getBoardSuccessors() as $key => $board) {
 				$heuristic = HManhattan::calc($board);
-
 				if(!is_null($actualNode->get('previous'))) {
 					if (!$actualNode->get('previous')->get('board')->equals($board)) {
 						if(($savedNode = $this->findBoardClosedList($board)) != NULL) {
@@ -103,11 +102,16 @@ class AStar extends Entity {
 		if($actualNode->get('board')->isSolution()){
 			$temp = $actualNode;
 			$steps = $actualNode->get('movements');
-
-			while(!is_null($temp->get('previous'))) {
+			var_dump($steps); die();
+			if(is_null($temp->get('previous'))){
 				$this->solution[$temp->get('board')->get('identifier')] = $temp->get('board');
-				$temp = $temp->get('previous');
+			}else{
+				while(!is_null($temp->get('previous'))) {
+					$this->solution[$temp->get('board')->get('identifier')] = $temp->get('board');
+					$temp = $temp->get('previous');
+				}
 			}
+
 		}
 	}
 
